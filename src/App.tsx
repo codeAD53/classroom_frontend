@@ -27,12 +27,12 @@ function App() {
               dataProvider={dataProvider}
               notificationProvider={useNotificationProvider()}
               routerProvider={routerProvider}
-              options = {{
+              options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
                 projectId: "B66RM9-PKTYYx-GReDht",
               }}
-              resources = {[
+              resources={[
                 {
                   name: 'dashboard', 
                   list: '/', 
@@ -54,9 +54,9 @@ function App() {
                 }>
 
                 <Route path = "/" element = {<Dashboard/>} />
-                <Route path='subjects'>
+                <Route path = 'subjects'>
                   <Route index element= {<SubjectsList/>}></Route>
-                  <Route path="create" element = {<SubjectsCreate/>}></Route>
+                  <Route path = "create" element = {<SubjectsCreate/>}></Route>
                 </Route>
                 </Route>
               </Routes>

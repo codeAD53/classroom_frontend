@@ -13,13 +13,13 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 
 const SubjectsList = () => {
-    const [SearchQuery, setSearchQuery] = useState('');
-    const [SelectedDepartment, setSelectedDepartment] = useState('all');
-    const departmentFilters = SelectedDepartment === 'all' ? [] : [
-        {field: 'department',operator: 'eq' as const, value: SelectedDepartment}    
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedDepartment, setSelectedDepartment] = useState('all');
+    const departmentFilters = selectedDepartment === 'all' ? [] : [
+        {field: 'department',operator: 'eq' as const, value: selectedDepartment}    
     ];
-    const searchFilters = SearchQuery ? [
-        {field: 'name', operator: 'contains' as const, value: SearchQuery}
+    const searchFilters = searchQuery ? [
+        {field: 'name', operator: 'contains' as const, value: searchQuery}
     ] : [];
 
     const subjectTable = useTable<Subject>({
@@ -35,16 +35,16 @@ const SubjectsList = () => {
                 id: 'name',
                 accessorKey: 'name',
                 size: 200,
-                header: () => <p className='coulmn-title'>Name</p>,
+                header: () => <p className='column-title'>Name</p>,
                 cell: ({getValue}) => <span
                 className='text-foreground'>{getValue<string>()}</span>,
-                filterFn: 'includesString'
+                
             },
             {
                 id: 'department',
                 accessorKey: 'department',
                 size: 150,
-                header: () => <p className='coulmn-title'>Department</p>,
+                header: () => <p className='column-title'>Department</p>,
                 cell: ({getValue}) => <Badge variant="secondary">{getValue<string>()}</Badge>
             },
             {
@@ -84,14 +84,14 @@ const SubjectsList = () => {
                         type="text"
                         placeholder="Search by name..."
                         className='pl-10 w-full'
-                        value={SearchQuery}
+                        value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         
                         
                         />
                         </div>
                         <div className="flex gap-2 w-full sm:w-auto">
-                            <Select value={SelectedDepartment} onValueChange={setSelectedDepartment}>
+                            <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Filter by Department" />
                                     </SelectTrigger>
