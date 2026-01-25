@@ -35,10 +35,10 @@ export const dataProvider: DataProvider = {
             return { data: [] as TData[], total: 0};
           }
   },
-  getOne: async () => {throw new Error('This function is not present in mock')},
-  create: async () => {throw new Error('This function is not present in mock')},
-  update: async () => {throw new Error('This function is not present in mock')},
-  deleteOne: async () => {throw new Error('This function is not present in mock')},
+  getOne: async () => {throw new Error('getOne is not implemented in mock data provider')},
+  create: async () => {throw new Error('create is not implemented in mock data provider')},
+  update: async () => {throw new Error('update is not implemented in mock data provider')},
+  deleteOne: async () => {throw new Error('deleteOne is not implemented in mock data provider')},
 
   getApiUrl: () => '',
 }

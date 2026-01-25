@@ -2,7 +2,7 @@ import { Breadcrumb } from '@/components/refine-ui/layout/breadcrumb'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from '@/components/ui/select'
 import { ListView } from '@/components/refine-ui/views/list-view'
-import { useMemo, useState } from 'react'
+import { useDeferredValue, useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
 import { DEPARTMENT_OPTIONS } from '@/constants'
 import { CreateButton } from '@/components/refine-ui/buttons/create'
@@ -14,16 +14,23 @@ import { Badge } from '@/components/ui/badge'
 
 const SubjectsList = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const defferedSearchQuery = useDeferredValue(searchQuery);
     const [selectedDepartment, setSelectedDepartment] = useState('all');
-    const departmentFilters = selectedDepartment === 'all' ? [] : [
-        {field: 'department',operator: 'eq' as const, value: selectedDepartment}    
-    ];
-    const searchFilters = searchQuery ? [
-        {field: 'name', operator: 'contains' as const, value: searchQuery}
-    ] : [];
+
+    const departmentFilters = useMemo(()=>
+        selectedDepartment === 'all' ? [] : [
+            {field: 'department',operator: 'eq' as const, value: selectedDepartment}    
+        ],[selectedDepartment])
+
+    const searchFilters = useMemo(()=>
+        defferedSearchQuery ? [
+            {field: 'name', operator: 'contains' as const, value: defferedSearchQuery} //The search filter triggers on every keystroke. For server-side filtering, this could cause excessive API calls. Consider debouncing the search query.
+        ] : [],[defferedSearchQuery])
 
     const subjectTable = useTable<Subject>({
-        columns: useMemo<ColumnDef<Subject>[]>(()=>[
+        columns: useMemo<ColumnDef<Subject>[]>(()=>[ 
+            // Filter arrays should be memoized to prevent unnecessary refetches.
+            // departmentFilters and searchFilters are recreated on every render. Since they're passed to refineCoreProps.filters.permanent, this could trigger unnecessary data refetches when the component re-renders for unrelated reasons.
             {
                  id: 'code', 
                 accessorKey: 'code',
@@ -86,8 +93,6 @@ const SubjectsList = () => {
                         className='pl-10 w-full'
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        
-                        
                         />
                         </div>
                         <div className="flex gap-2 w-full sm:w-auto">
