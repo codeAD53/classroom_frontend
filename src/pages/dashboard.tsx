@@ -1,10 +1,13 @@
-import React from 'react'
+import { ListView } from '@/components/refine-ui/views/list-view'
+import { Breadcrumb } from '@/components/refine-ui/layout/breadcrumb'
 
 const Dashboard = () => {
   return (
-    <div>
-      DashBoard
-    </div>
+    <ListView>
+      <Breadcrumb />
+      <h1 className='page-title'>Dashboard</h1>
+      <p>Welcome to the dashboard.</p>
+    </ListView>
   )
 }
 
