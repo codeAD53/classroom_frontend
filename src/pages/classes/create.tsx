@@ -91,13 +91,6 @@ const ClassesCreate = () => {
   const subjects = subjectsQuery.data?.data || [];
   const subjectsLoading = subjectsQuery.isLoading;
 
-  const onSubmit = async(values: z.infer<typeof classSchema>) => {
-    try{
-      await onFinish(values);
-    }catch(error){
-      console.error("Error creating class:",error);
-    }
-  }
   return (
     <CreateView className="class-view">
       <Breadcrumb />
