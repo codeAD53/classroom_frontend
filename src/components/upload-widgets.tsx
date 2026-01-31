@@ -2,11 +2,13 @@ import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from '@/constants';
 import { UploadWidgetValue } from '@/types';
 import { UploadCloud } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react'
+import { effect } from 'zod';
 
 const UploadWidget = ({value=null,onChange,disabled=false}) => {
   const widgetRef = useRef<CloudinaryWidget | null>(null);
   const onChangeRef = useRef(onChange);
   const [preview,setPreview] = useState<UploadWidgetValue | null>(value);
+  const [deleteToken, setDeleteToken] = useState<string | null>(null);
   
     
   useEffect(()=>{
@@ -16,7 +18,8 @@ const UploadWidget = ({value=null,onChange,disabled=false}) => {
 
   useEffect(()=>{
       onChangeRef.current = onChange;
-  },[onChangeRef])
+   },[onChange]) 
+  // runs the effect whenever the onChange callback changes
 
 
   useEffect(()=>{
@@ -27,7 +30,7 @@ const UploadWidget = ({value=null,onChange,disabled=false}) => {
           cloudName: CLOUDINARY_CLOUD_NAME,
           uploadPreset:CLOUDINARY_UPLOAD_PRESET,
           multiple: false,
-          folders: 'uploads',
+          asset_folder: 'uploads',
           maxFileSize: 5000000,
           clientAllowedFormats: ['png','jpg','jpeg','webp']
         },(error,result)=>{
@@ -45,7 +48,9 @@ const UploadWidget = ({value=null,onChange,disabled=false}) => {
       }
      if(initializeWidget()) return;
      const intervalID = window.setInterval(()=>{
-          window.clearInterval(intervalID)
+         if(initializeWidget()){
+          window.clearInterval(intervalID);
+         }
      },500)
      return () => window.clearInterval(intervalID)
   },[])

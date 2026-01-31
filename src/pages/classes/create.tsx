@@ -237,7 +237,7 @@ const ClassesCreate = () => {
                           </FormControl>
                           <SelectContent>
                             {teachers.map((teacher) => (
-                              <SelectItem key={teacher.id} value={teacher.id}>
+                              <SelectItem key={teacher.id} value={teacher.id.toString()}>
                                 {teacher.name}
                               </SelectItem>
                             ))}
