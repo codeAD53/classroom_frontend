@@ -18,8 +18,8 @@ const options: CreateDataProviderOptions = {
         if(filter.value==null || filter.value==='') return;
         const value = String(filter.value);
         if(resource==='subjects'){
-          if(field=== 'department') params.department = value;
-          if(field=== 'name' || field=== 'code') params.search = value;
+          if(field==='department') params.department = value;
+          if(field==='name' || field==='code') params.search = value;
   
         }
     })
