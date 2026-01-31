@@ -2,13 +2,20 @@ import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from '@/constants';
 import { UploadWidgetValue } from '@/types';
 import { UploadCloud } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react'
-import { effect } from 'zod';
 
-const UploadWidget = ({value=null,onChange,disabled=false}) => {
+interface CloudinaryWidget {
+  open: () => void;
+}
+interface UploadWidgetProps{
+    value?: UploadWidgetValue | null;
+    onChange?: (value:UploadWidgetValue | null) => void;
+    disabled: boolean;
+}
+const UploadWidget = ({value=null,onChange,disabled=false}:UploadWidgetProps) => {
   const widgetRef = useRef<CloudinaryWidget | null>(null);
   const onChangeRef = useRef(onChange);
   const [preview,setPreview] = useState<UploadWidgetValue | null>(value);
-  const [deleteToken, setDeleteToken] = useState<string | null>(null);
+  
   
     
   useEffect(()=>{
@@ -40,7 +47,7 @@ const UploadWidget = ({value=null,onChange,disabled=false}) => {
               publicId: result.info.public_id
             }
             setPreview(payload);
-            setDeleteToken(result.info.delete_token??null);
+           
             onChangeRef.current?.(payload);
           }
         });
@@ -60,14 +67,12 @@ const UploadWidget = ({value=null,onChange,disabled=false}) => {
     if(!disabled) widgetRef.current?.open()
   }
 
-  const removingFromCloudinary = async() => {
-
-  }
+ 
   return (
     <div className='space-y-2'>
           {preview ? (
             <div className='upload-preview'>
-              <img src={preview.url} alt="Uploaded Url" />
+              <img src={preview.url} alt="Uploaded Banner Preview" />
             </div>
           ): <div className='upload-dropzone' role="button" tabIndex={0} onClick={openWidget} onKeyDown={(event)=>{
             if(event.key === 'Enter'){

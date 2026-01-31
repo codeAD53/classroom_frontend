@@ -29,7 +29,7 @@ import { Loader2 } from "lucide-react";
 import { classSchema } from "@/lib/schema";
 import UploadWidget from "@/components/upload-widgets";
 import { Subject, User } from "@/types";
-import z from "zod";
+import {z} from "zod";
 
 const ClassesCreate = () => {
   const back = useBack();
@@ -91,6 +91,13 @@ const ClassesCreate = () => {
   const subjects = subjectsQuery.data?.data || [];
   const subjectsLoading = subjectsQuery.isLoading;
 
+  const onSubmit = async(values: z.infer<typeof classSchema>) => {
+    try{
+      await onFinish(values);
+    }catch(error){
+      console.error("Error creating class:",error);
+    }
+  }
   return (
     <CreateView className="class-view">
       <Breadcrumb />
