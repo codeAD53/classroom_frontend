@@ -18,6 +18,7 @@ import SubjectsList from "./pages/subjects/lists";
 import SubjectsCreate from "./pages/subjects/create";
 import ClassesList from "./pages/classes/list";
 import ClassesCreate from "./pages/classes/create";
+import ClassesShow from "./pages/classes/show";
 
 function App() {
   return (
@@ -52,7 +53,15 @@ function App() {
                   list: '/classes',
                   create: '/classes/create',
                   meta: {label: 'Classes', icon: <GraduationCap/>}
-                }
+                },
+                {
+                  name: 'classes',
+                  list: '/classes',
+                  create: '/classes/create',
+                  show: '/classes/show/:id',
+                  meta: {label: 'Classes', icon: <GraduationCap/>}
+                },
+                
               ]}
             >
               <Routes>
@@ -70,7 +79,9 @@ function App() {
                 <Route path='classes'>
                   <Route index element={<ClassesList/>}></Route>
                 <Route path='create' element={<ClassesCreate/>}>
+        
                 </Route>
+                <Route path='show/:id' element={<ClassesShow/>}></Route>
                 </Route>
                 </Route>
               </Routes>
